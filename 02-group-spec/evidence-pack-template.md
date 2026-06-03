@@ -1,47 +1,46 @@
 # Template — Evidence Pack
 
-**Học viên:** Dương Đức Cường — 2A202600794  
+**Nhóm:** Dương Đức Cường (2A202600794), Đinh Hoàng Nam (2A202600884), Bùi Hoàng Sơn (2A202600925), Ngô Minh Khánh (2A202600953), Bùi Như Kiệt (2A202600895)  
 **Ngày:** 03/06/2026
 
 ---
 
 ## 1. Nhóm và track
 
-**Tên nhóm:** Cá nhân — Dương Đức Cường  
-**Track:** Fintech / Quản lý tài chính cá nhân  
-**Product/app đã chọn:** MoMo — Moni (Trợ thủ tài chính AI)  
-**Build slice đang nghĩ:** Prototype cải thiện flow phân tích chi tiêu khi data MoMo thiếu — AI phát hiện khoảng trống bất thường, disclaimer nguồn dữ liệu, proactive hỏi user bổ sung, và KHÔNG đưa nhận xét đánh giá khi data không đủ.
+**Tên nhóm:** Nhóm Cường — 5 thành viên  
+**Track:** C — Food & Local Delivery  
+**Product/app đã chọn:** ShopeeFood  
+**Build slice đang nghĩ:** Prototype AI agent gợi ý món ăn theo ngữ cảnh (thời tiết, cảm xúc, thời gian, budget, sức khoẻ) bằng cách kết hợp API thời tiết + Google Maps Places + Nutritionix — thay vì gợi ý chung chung / quảng cáo như ShopeeFood hiện tại.
 
 ---
 
 ## 2. Self-use evidence
 
-Tự dùng app MoMo Moni với 8 câu hỏi test khác nhau, ghi lại điểm gãy.
+Cả nhóm tự dùng ShopeeFood và ghi lại điểm gãy.
 
-| # | Observation | Screenshot | Path liên quan | Điều học được |
-|---|---|---|---|---|
-| 1 | Hỏi "phân tích chi tiêu Ăn Uống 2 tuần" → trả 0đ, 0 giao dịch. User ăn uống hàng ngày bằng tiền mặt/ngân hàng. Moni không disclaimer nguồn data. | ![Screenshot](../01-invidual-workshop/moni-chi-tieu-an-uong.png) | **Failure** | Moni chỉ "thấy" giao dịch MoMo. Với user chi tiêu đa kênh, tính năng "trợ thủ tài chính" gần như vô nghĩa. |
-| 2 | Hỏi "tháng này tiêu nhiều nhất khoản gì?" → trả 0đ, nhưng khuyên "nếu chưa ghi lại, nên cập nhật ngay" + gợi ý "Cách ghi chép chi tiêu hiệu quả". | ![Screenshot](../01-invidual-workshop/moni-cau1-tieu-nhieu-nhat.png) | **Low-confidence (tốt)** | Moni nhận ra data có thể thiếu và gợi ý bổ sung — hành vi tốt. Nhưng vẫn không disclaimer nguồn data. |
-| 3 | Hỏi "so sánh chi tiêu tháng 5 và tháng 4" → Tháng 5: 45k (2 GD), Tháng 4: 0đ. Kết luận: "mở ví nhiều hơn hẳn". Thực tế user chi hàng triệu/tháng ngoài MoMo. | ![Screenshot](../01-invidual-workshop/moni-cau2-so-sanh-thang.png) | **Failure** | So sánh dựa trên data thiếu → kết luận hoàn toàn sai. Nguy hiểm nếu user tin và đưa quyết định tài chính dựa vào đây. |
-| 4 | Hỏi "chuyển 200k cho bạn trả tiền ăn tối, danh mục nào?" → Moni phân loại **đúng** "Ăn uống (86)" vì user nói rõ context. | ![Screenshot](../01-invidual-workshop/moni-cau3-chuyen-tien-an-toi.png) | **Happy** | Moni hiểu context khi user nói rõ. Nhưng thực tế giao dịch chuyển tiền không có ghi chú sẽ bị phân loại sai → AI cần proactive hỏi mục đích. |
-| 5 | Hỏi "có nên vay tiền trên MoMo không?" → Moni đưa 3 điểm cần cân nhắc (khả năng trả nợ, lãi suất, nhu cầu). Có disclaimer nhưng cuối cùng vẫn gợi ý "hỏi thêm về sản phẩm vay trên MoMo". | ![Screenshot](../01-invidual-workshop/moni-cau4-vay-tien.png) | **Low-confidence** | Ranh giới tư vấn tài chính vs quảng bá sản phẩm mờ nhạt. Cần minh bạch hơn. |
-| 6 | Hỏi "chi tiêu linh tinh là gì?" → Trả lời rõ ràng, cho ví dụ cụ thể, khuyên ghi chú từng khoản. | ![Screenshot](../01-invidual-workshop/moni-cau5-chi-tieu-linh-tinh.png) | **Happy** | Moni xử lý tốt câu hỏi khái niệm/mơ hồ. Đây là điểm mạnh. |
-| 7 | Hỏi "nợ 10 triệu, trả hết 1 tháng?" → Moni đưa 4 bước generic. KHÔNG dùng data chi tiêu cá nhân của user để cá nhân hoá. | ![Screenshot](../01-invidual-workshop/moni-cau6-no-10-trieu.png) | **Failure** | Moni hứa "cá nhân hoá" nhưng lời khuyên generic — không khác Google search. |
-| 8 | Hỏi "sửa giao dịch 50k hôm qua thành tiền ăn sáng" → Moni yêu cầu mã giao dịch, không tự tìm. | ![Screenshot](../01-invidual-workshop/moni-cau7-sua-giao-dich.png) | **Correction (gãy)** | Correction path quá phức tạp — user bỏ cuộc. AI nên tự tìm giao dịch khớp rồi hỏi xác nhận. |
-| 9 | Hỏi "tổng hợp chi tiêu tháng này" → 0đ, 0 GD. Moni khen: "Kiểm soát chi tiêu rất tốt!" | ![Screenshot](../01-invidual-workshop/moni-cau8-tong-hop-thang.png) | **Failure (nguy hiểm)** | **False positive**: khen user khi data thiếu. Hành vi nguy hiểm nhất — user có thể tin và không biết mình đang chi tiêu quá tay. |
+| # | Observation | Path liên quan | Điều học được |
+|---|---|---|---|
+| 1 | Buổi sáng mở app nhưng ShopeeFood gợi ý lẩu, buffet — món không phù hợp buổi sáng. Không có filter "bữa sáng". | **Failure** — Gợi ý không theo ngữ cảnh thời gian. | App chỉ gợi ý theo quảng cáo/popularity, không xét thời điểm trong ngày. |
+| 2 | Trời mưa lạnh muốn ăn phở/cháo nóng nhưng app gợi ý trà sữa, salad. Phải tự search "phở" rồi lọc thủ công. | **Failure** — Gợi ý không theo thời tiết. | App không tích hợp dữ liệu thời tiết. User phải tự biết mình muốn gì rồi search keyword. |
+| 3 | Tìm "quán ăn healthy gần đây dưới 50k" — search không hiểu câu ngữ cảnh, trả kết quả lộn xộn. | **Failure** — Search/filter yếu, không hiểu natural language. | Phải tách thành nhiều bước: search "healthy" → lọc giá → lọc khoảng cách. UX tệ. |
+| 4 | Không biết món nào bao nhiêu calo. Muốn ăn ít calo nhưng app không có thông tin dinh dưỡng. | **Low-confidence** — Thiếu data dinh dưỡng hoàn toàn. | User quan tâm sức khoẻ không được hỗ trợ. Phải tự Google "phở bao nhiêu calo" riêng. |
+| 5 | Gợi ý chủ yếu là quán đang chạy quảng cáo — không rõ đây là gợi ý tốt thật hay paid promotion. | **Low-confidence** — Ranh giới gợi ý vs quảng cáo mờ. | User mất niềm tin vào "Gợi ý cho bạn". Giống pain Moni (tư vấn vs quảng bá). |
+| 6 | Khi buồn/stress muốn ăn comfort food (mì cay, trà sữa, kem) nhưng phải tự search. App không hiểu mood. | **Failure** — App không hỗ trợ context cảm xúc. | Đây là nhu cầu thật: "tôi buồn, gợi ý gì ăn cho vui?" — app delivery chưa ai giải quyết. |
+| 7 | Đêm khuya (23h) app vẫn gợi ý quán đã đóng cửa → đặt không được → frustrating. | **Failure** — Gợi ý quán đã đóng cửa. | App không sync real-time giờ hoạt động của quán vào danh sách gợi ý. |
+| 8 | Tìm món ăn dưới 50k, AI gợi ý món 45k ngon nhưng quán cách 5km → phí ship thực tế 25k (tổng 70k) vượt budget nghiêm trọng. | **Failure** — Gợi ý vượt budget thực tế do bỏ qua khoảng cách và phí ship. | Gợi ý budget phải bao gồm cả ước tính phí ship dựa trên khoảng cách. |
+| 9 | Sau khi AI gợi ý, phải tự gõ thủ công lại tên quán trên ShopeeFood → trải nghiệm đứt gãy, dễ gõ sai. | **Failure** — Luồng trải nghiệm từ chatbot sang đặt hàng bị gãy. | Chatbot cần hỗ trợ nút copy tên quán nhanh hoặc deep-link search. |
+| 10 | Gợi ý quán cơm mở cửa trên Google Maps nhưng khi mở ShopeeFood thực tế quán ghi "Tạm ngưng nhận đơn". | **Failure** — Trạng thái đóng/mở cửa giữa các nền tảng bị lệch nhau. | Cần gợi ý món ăn kèm danh sách 2-3 quán backup gần đó thay vì chỉ gợi ý 1 quán duy nhất. |
 
 ---
 
 ## 3. User / review / social evidence
 
-Nguồn từ review App Store/Play, bài báo, trang hỗ trợ MoMo và forum cộng đồng.
-
 | Quote / review / observation | Nguồn | User là ai? | Pain/failure mode |
 |---|---|---|---|
-| "Việc phân loại có thể gặp khó khăn với các giao dịch có nội dung không rõ ràng hoặc các khoản chi tiêu phức tạp ngoài hệ sinh thái MoMo." | momo.vn (trang hỗ trợ) | Người dùng MoMo nói chung | Failure — AI phân loại sai khi giao dịch thiếu context. Khớp với finding từ self-use. |
-| "Giao dịch chuyển tiền thường không có thông tin chi tiết về đơn vị thụ hưởng, do đó AI khó nhận diện chính xác nếu bạn không đặt ghi chú." | momo.vn (hướng dẫn Quản lý chi tiêu) | User chuyển tiền cho bạn bè | Failure — phân loại sai do thiếu context ghi chú. Xác nhận self-use test #4. |
-| "Nhiều người dùng đánh giá 1 sao do không hiểu rõ lý do bị trừ tiền, đặc biệt khi liên kết ví MoMo làm phương thức thanh toán cho Google Play/App Store." | Google Play reviews tổng hợp 2025-2026 | Người dùng trẻ liên kết ví | Failure — user confused bởi giao dịch tự động, Moni không giải thích rõ. |
-| "Tích hợp quá nhiều dịch vụ, tính năng mới có thể khiến ứng dụng trở nên cồng kềnh, gây khó khăn cho người dùng mới hoặc những người không rành công nghệ." | Bài đánh giá tổng hợp MoMo 2025-2026 | Người dùng lớn tuổi / ít tech-savvy | Low-confidence — quá nhiều tính năng, user không biết Moni giúp gì. |
+| "Thuật toán tập trung quá mức vào các nhà hàng đang chạy quảng cáo hoặc chuỗi lớn, thay vì quán phù hợp sở thích cá nhân." | vtv.vn — Đánh giá ShopeeFood Knowledge Graph AI | Người dùng ShopeeFood nói chung | Failure — Gợi ý thiên vị quảng cáo, không cá nhân hoá thật. |
+| "Bộ lọc chưa đủ sâu để phân loại theo nhu cầu khắt khe (chế độ dinh dưỡng, định lượng thực tế)." | shopeefood.vn — review tổng hợp | User có nhu cầu dinh dưỡng | Low-confidence — filter thiếu, user tự lọc thủ công. |
+| "Trải nghiệm tìm kiếm chưa tối ưu, khách hàng mất nhiều thời gian tìm được món ưng ý." | shopeefood.vn — phản hồi người dùng | User bận rộn (dân văn phòng, sinh viên) | Failure — choice overload, search không smart. |
+| "Đánh giá '5 sao' đôi khi không phản ánh thực tế vì review ảo và quảng cáo quá đà." | Tổng hợp từ review cộng đồng, shapo.io | User muốn tìm quán chất lượng thật | Low-confidence — mất tin cậy vào hệ thống đánh giá. |
 
 ---
 
@@ -49,9 +48,9 @@ Nguồn từ review App Store/Play, bài báo, trang hỗ trợ MoMo và forum c
 
 | App / mô hình tham khảo | Họ xử lý task này thế nào? | Pattern học được | Có áp dụng trong 1 ngày không? |
 |---|---|---|---|
-| **Money Lover** (app quản lý chi tiêu VN) | Cho phép user tự nhập chi tiêu thủ công nhanh chóng, có reminder hàng ngày nhắc nhập. Phân loại theo danh mục do user chọn. | Proactive reminder + manual input flow đơn giản giúp data đầy đủ hơn. | Có — prototype thêm prompt nhắc nhập chi tiêu ngoài MoMo. |
-| **Cleo AI** (fintech UK) | Chatbot AI phân tích chi tiêu. Khi data thiếu, Cleo nói rõ: "I can only see transactions from your linked accounts." và gợi ý liên kết thêm. | Disclaimer rõ ràng về nguồn dữ liệu + low-confidence path khi data thiếu. | Có — prototype thêm disclaimer tương tự. |
-| **YNAB** (budgeting app) | Bắt buộc user ghi chép mọi giao dịch (kể cả tiền mặt). Khi thiếu giao dịch, app cảnh báo "uncleared transactions". | KHÔNG đưa nhận xét đánh giá khi data chưa đầy đủ. | Có — prototype KHÔNG khen/chê khi data thiếu. |
+| **DoorDash (Mỹ)** — hệ thống DeepRed | AI dùng thời tiết + traffic + demand để gợi ý quán giao nhanh, điều chỉnh phí theo real-time. | Context-aware recommendation: kết hợp nhiều nguồn data (thời tiết, thời gian, traffic). | Có — prototype dùng Weather API + Google Maps. |
+| **Uber Eats — "Cravings" feature** | Cho user chọn mood ("healthy", "comfort", "quick bite") rồi filter kết quả. | Mood-based filter đơn giản nhưng hiệu quả, giảm choice overload. | Có — prototype cho user chọn mood → AI filter. |
+| **Cleo AI (Fintech UK)** | Chatbot hỏi user "How are you feeling?" rồi điều chỉnh tone + gợi ý. | Conversational AI hiểu ngữ cảnh cảm xúc qua chat. | Có — prototype chatbot hỏi mood + gợi ý. |
 
 ---
 
@@ -59,52 +58,56 @@ Nguồn từ review App Store/Play, bài báo, trang hỗ trợ MoMo và forum c
 
 ```text
 Evidence nổi bật nhất:
-1. Moni trả 0đ chi tiêu tháng và khen "kiểm soát chi tiêu rất tốt" (false positive).
-2. So sánh 45k vs 0đ rồi kết luận "mở ví nhiều hơn" (kết luận sai).
-3. Tư vấn trả nợ 10 triệu bằng lời khuyên generic, không dùng data cá nhân.
-4. Yêu cầu mã giao dịch khi user muốn sửa phân loại (correction gãy).
-5. Hành vi không nhất quán: cùng data 0đ nhưng lúc khuyên ghi chép, lúc khen.
+1. ShopeeFood gợi ý lẩu buổi sáng, salad trời mưa, quán đóng cửa đêm khuya.
+2. Search không hiểu "healthy gần đây dưới 50k" — phải tách nhiều bước.
+3. Không có thông tin dinh dưỡng trên bất kỳ món nào.
+4. Gợi ý thiên vị quảng cáo thay vì cá nhân hoá thật.
+5. User buồn/stress muốn comfort food nhưng phải tự tìm.
+6. Khoảng cách xa làm phát sinh phí ship cao khiến tổng đơn vượt budget của user.
+7. Đứt gãy trải nghiệm khi phải copy/gõ thủ công tên quán từ chatbot sang ShopeeFood.
+8. Quán hiển thị mở cửa nhưng thực tế trên ShopeeFood ngưng nhận đơn hoặc hết hàng.
 
 Insight:
-User trẻ Việt Nam chi tiêu đa kênh không chỉ cần một chatbot phân tích chi tiêu.
-Họ thật ra cần một trợ thủ tài chính BIẾT RÕ GIỚI HẠN CỦA MÌNH:
-  - Biết khi nào data thiếu và nói thật cho user,
-  - Không đưa nhận xét đánh giá khi chưa đủ cơ sở,
-  - Dùng data có để cá nhân hoá lời khuyên thay vì trả generic,
-  - Cho phép user sửa lỗi dễ dàng ngay trong trải nghiệm chat.
-
-Vấn đề cốt lõi không phải AI "ngu" — Moni khá thông minh trong phạm vi data có.
-Vấn đề là AI "mù" và "không trung thực về sự mù" — nó không biết data thiếu
-và không nói cho user biết, thậm chí còn đưa nhận xét tích cực sai lệch.
+User trẻ Việt Nam dùng food delivery không chỉ cần một danh sách quán.
+Họ thật ra cần một trợ lý ăn uống hiểu ngữ cảnh:
+  - Bây giờ là sáng hay tối? Trời mưa hay nắng?
+  - User đang vui, buồn, hay stress?
+  - Budget thực tế là bao nhiêu (gồm cả phí ship dựa trên khoảng cách)?
+  - Muốn healthy hay comfort? Có phương án quán backup hay không?
+vì evidence cho thấy phần lớn pain đều liên quan đến
+"app gợi ý ĐÚNG MÓN nhưng SAI CONTEXT" — không sai về data,
+sai về hiểu ngữ cảnh con người.
 
 Opportunity:
-AI có thể giúp bằng cách phát hiện khoảng trống bất thường trong dữ liệu,
-disclaimer rõ ràng ở mọi kết quả phân tích,
-proactive hỏi user bổ sung chi tiêu ngoài MoMo,
-và TUYỆT ĐỐI KHÔNG đưa nhận xét đánh giá khi data không đủ cơ sở.
+AI có thể giúp bằng cách kết hợp context thời tiết (Weather API)
++ thời gian + cảm xúc user (chatbot hỏi mood)
++ budget thực tế (bao gồm ước tính phí ship từ khoảng cách quán)
++ vị trí (Google Maps Places) để lọc quán gần nhất đang mở cửa
++ cung cấp 2-3 quán backup để tránh quán chính ngưng nhận đơn
++ cung cấp nút copy nhanh tên quán
++ thông tin dinh dưỡng (Nutritionix)
+để gợi ý món phù hợp ngữ cảnh thay vì gợi ý chung chung.
 ```
 
 ---
 
 ## 6. Evidence đổi SPEC như thế nào?
 
-- [ ] Đổi user chính.
-- [x] Đổi pain statement. → Pain không phải "AI phân tích sai" mà là "AI không biết data thiếu và đưa nhận xét sai lệch (false positive)."
-- [x] Đổi build slice. → Thêm 3 tính năng: (1) disclaimer nguồn data, (2) phát hiện khoảng trống + hỏi bổ sung, (3) KHÔNG đưa nhận xét đánh giá khi data thiếu.
-- [x] Đổi Auto/Aug decision. → Giữ Augmentation: AI gợi ý + hỏi user xác nhận.
-- [x] Đổi 4 paths. → Thêm low-confidence path nhất quán khi data thiếu. Sửa correction path: AI tự tìm giao dịch khớp.
-- [x] Đổi failure mode. → Failure chính = false positive (khen "kiểm soát tốt" khi 0đ) thay vì chỉ "trả kết quả thiếu".
-- [x] Đổi owner/test plan. → Thêm test case: false positive, so sánh data thiếu, correction flow.
+- [x] Đổi user chính. → User trẻ (sinh viên, dân văn phòng) dùng food delivery hàng ngày, hay phân vân "ăn gì".
+- [x] Đổi pain statement. → Pain không phải "app lỗi" mà là "app gợi ý đúng món nhưng sai context".
+- [x] Đổi build slice. → AI agent gợi ý món theo ngữ cảnh (thời tiết + mood + thời gian + budget kèm ship + backup quán + copy shortcut).
+- [x] Đổi Auto/Aug decision. → Augmentation: AI gợi ý 2-3 option, user chọn.
+- [x] Đổi 4 paths. → Thêm low-confidence path khi AI không chắc mood user.
+- [x] Đổi failure mode. → AI gợi ý sai mood (user buồn nhưng gợi ý healthy salad thay vì comfort food) hoặc phí ship vượt budget.
+- [x] Đổi owner/test plan. → Chia 5 người: research, SPEC, prototype, test, demo.
 
 Ghi rõ 1-2 thay đổi quan trọng:
 
 ```text
-Trước evidence, nhóm định focus vào "AI trả kết quả thiếu, cần disclaimer".
-Sau evidence (test 8 câu), nhóm phát hiện vấn đề NGHIÊM TRỌNG HƠN:
-  AI không chỉ trả kết quả thiếu mà còn ĐƯA NHẬN XÉT ĐÁNH GIÁ SAI LỆCH
-  ("kiểm soát chi tiêu rất tốt") dựa trên data thiếu → false positive nguy hiểm.
-  Ngoài ra, hành vi không nhất quán (cùng data 0đ: lúc khuyên ghi chép, lúc khen)
-  cho thấy thiếu safety rule thống nhất.
-Lý do: False positive nguy hiểm hơn "trả 0đ" vì user có thể TIN và ĐƯA QUYẾT ĐỊNH
-  tài chính sai (nghĩ mình chi tiêu ít → chi tiêu thêm → nợ).
+Trước evidence, nhóm định build "chatbot tìm quán ăn gần đây".
+Sau evidence, nhóm nhận ra pain thật không phải "tìm quán"
+  mà là "chọn món phù hợp LÚC NÀY, VỚI TÂM TRẠNG NÀY, THỜI TIẾT NÀY, VÀ CHI PHÍ THỰC TẾ NÀY".
+  Đổi build slice thành context-aware food recommendation agent
+  kết hợp Weather API + mood input + Google Maps + Nutritionix + công thức tính phí ship + quán backup + nút copy nhanh.
+Lý do: Các pain points đều liên quan đến sai context và chi phí thực tế phát sinh (phí ship), không chỉ là thiếu data.
 ```
