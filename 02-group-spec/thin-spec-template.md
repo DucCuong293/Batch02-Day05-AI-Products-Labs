@@ -1,16 +1,17 @@
 # Template — Thin SPEC Cuối Day 05
 
 **Học viên:** Dương Đức Cường — 2A202600794  
+**Nhóm:** Dương Đức Cường (2A202600794), Đinh Hoàng Nam (2A202600884), Bùi Hoàng Sơn (2A202600925), Ngô Minh Khánh (2A202600953), Bùi Như Kiệt (2A202600895)  
 **Ngày:** 03/06/2026
 
 ---
 
 ## 1. Track, product/app và user
 
-**Track:** Fintech / Quản lý tài chính cá nhân  
-**Product/app thật:** MoMo — Moni (Trợ thủ tài chính AI)  
-**User cụ thể:** Người dùng MoMo trẻ (18-25 tuổi), sinh viên hoặc mới đi làm, chi tiêu đa kênh: MoMo chỉ chiếm phần nhỏ, phần lớn chi tiêu bằng tiền mặt và chuyển khoản ngân hàng. Muốn quản lý tài chính nhưng chưa chuyển hết giao dịch sang MoMo.  
-**Nhóm có phải user thật không?** Có. Bản thân là sinh viên, dùng MoMo nhưng chủ yếu chi tiêu tiền mặt và chuyển khoản ngân hàng. Trải nghiệm self-use (8 bài test) phản ánh đúng pain thật — Moni khen "kiểm soát chi tiêu rất tốt" khi thực tế chi tiêu hàng ngày bằng tiền mặt.
+**Track:** C — Food & Local Delivery  
+**Product/app thật:** ShopeeFood  
+**User cụ thể:** Người dùng trẻ (sinh viên, dân văn phòng) tại Hà Nội dùng các ứng dụng giao đồ ăn hàng ngày, thường xuyên băn khoăn "hôm nay ăn gì?", quan tâm đến budget, sức khỏe (lượng calo/dinh dưỡng) và bị ảnh hưởng bởi các yếu tố ngoại cảnh như thời tiết, thời gian trong ngày, tâm trạng.  
+**Nhóm có phải user thật không?** Có. Cả 5 thành viên trong nhóm đều là sinh viên đại học thường xuyên gọi đồ ăn qua ShopeeFood. Cả nhóm đều trải qua pain point mất từ 10 - 15 phút lướt app vô định mỗi ngày chỉ vì ShopeeFood chỉ gợi ý các quán đang chạy quảng cáo hoặc quán nổi tiếng, bất kể thời tiết nắng/mưa hay thời gian sáng/đêm.
 
 ---
 
@@ -18,27 +19,28 @@
 
 | Evidence | Nguồn | User/pain nói lên điều gì? | SPEC phải đổi gì? |
 |---|---|---|---|
-| Moni khen "kiểm soát chi tiêu rất tốt" khi 0đ, 0 giao dịch tháng 6. User thực tế chi tiêu hàng ngày bằng tiền mặt. | Self-use test #9, screenshot | **False positive nguy hiểm**: AI đưa nhận xét tích cực dựa trên data thiếu → user có thể tin và đưa quyết định tài chính sai. | Thêm safety rule: KHÔNG nhận xét đánh giá khi data thiếu. Thêm disclaimer + low-confidence path. |
-| So sánh tháng 5 (45k) vs tháng 4 (0đ), kết luận "mở ví nhiều hơn". Thực tế user chi hàng triệu/tháng ngoài MoMo. | Self-use test #3, screenshot | AI so sánh và kết luận dựa trên data thiếu mà không cảnh báo. | Thêm disclaimer nguồn data ở mọi kết quả phân tích + so sánh. |
-| Tư vấn trả nợ 10 triệu bằng 4 bước generic, không dùng data chi tiêu cá nhân. | Self-use test #7, screenshot | AI hứa cá nhân hoá nhưng lời khuyên không khác Google search. | Chưa trong scope Day 06 — ghi vào backlog. |
-| Yêu cầu mã giao dịch khi user muốn sửa phân loại → correction path gãy. | Self-use test #8, screenshot | User bỏ cuộc sửa lỗi → data phân loại sai vĩnh viễn. | Chưa trong scope Day 06 — ghi vào backlog. |
-| Hành vi không nhất quán: cùng data 0đ nhưng test #2 khuyên ghi chép (tốt), test #9 khen (nguy hiểm). | Self-use test #2 + #9, screenshot | Thiếu rule thống nhất khi xử lý data thiếu. | Thêm rule nhất quán: data 0đ/bất thường → LUÔN disclaimer + hỏi, KHÔNG khen. |
-| Review public: "phân loại khó khăn ngoài hệ sinh thái MoMo", "giao dịch chuyển tiền thiếu context". | momo.vn support, Google Play reviews | Pain phổ biến, không chỉ cá nhân — validate build slice có giá trị thực. | Xác nhận scope đúng hướng. |
+| Mở ShopeeFood vào buổi sáng sớm nhưng được gợi ý lẩu thái, nướng buffet. Không có bộ lọc theo bữa ăn. | Self-use test #1 | App gợi ý sai ngữ cảnh thời gian, không phân biệt được các bữa ăn trong ngày. | Tích hợp thời gian thực của hệ thống để phân loại món ăn phù hợp (sáng: phở, bánh mì; đêm: đồ ăn vặt, quán mở khuya). |
+| Trời mưa lạnh 18°C nhưng app liên tục đẩy banner gợi ý trà sữa đá và salad lạnh. | Self-use test #2 | App không nhận biết được thời tiết thực tế để điều chỉnh gợi ý phù hợp tâm sinh lý người dùng. | Tích hợp Weather API để detect thời tiết và đề xuất các món ấm/nóng khi trời mưa lạnh, món mát mẻ khi trời nắng nóng. |
+| Tìm kiếm "quán ăn healthy gần đây dưới 50k" trả về kết quả lộn xộn, không lọc đúng. | Self-use test #3 | Search engine của app không hiểu ngôn ngữ tự nhiên chứa nhiều tiêu chí kết hợp (healthy + khoảng cách + budget). | Sử dụng LLM để phân tích prompt tự nhiên của user và mapping với dữ liệu từ Google Places API để lọc chính xác. |
+| User muốn ăn kiêng nhưng món ăn không hề có thông tin calo hay dinh dưỡng. | Self-use test #4 | Thiếu thông tin hỗ trợ user có lối sống lành mạnh hoặc đang trong chế độ ăn kiêng. | Tích hợp cơ sở dữ liệu dinh dưỡng (Nutritionix API) để ước tính calo cho món ăn được gợi ý. |
+| Khi buồn/stress muốn tìm comfort food ngọt hoặc cay nhưng app chỉ gợi ý quán trả tiền quảng cáo. | Self-use test #5 & #6 | App bỏ qua yếu tố tâm trạng - một động lực quan trọng của hành vi ăn uống. Gợi ý thiên vị quảng cáo làm giảm độ tin cậy. | Chatbot cho phép user chọn mood nhanh hoặc chia sẻ tâm trạng để gợi ý comfort food tương ứng, bỏ qua quán rác quảng cáo. |
+| Đêm muộn (23h) app vẫn gợi ý quán đã đóng cửa từ 22h, đặt đơn bị hủy. | Self-use test #7 | Data giờ hoạt động của các quán ăn không được đồng bộ real-time với thuật toán gợi ý. | Sync real-time giờ mở cửa thông qua Google Places API trước khi đưa ra gợi ý cho user. |
 
 ---
 
 ## 3. Pain statement
 
 ```text
-User trẻ (sinh viên, mới đi làm) chi tiêu đa kênh đang gặp khó ở bước phân tích chi tiêu với Moni,
-vì phần lớn chi tiêu hàng ngày diễn ra ngoài MoMo (tiền mặt, chuyển khoản ngân hàng),
-nhưng Moni không biết data thiếu VÀ còn đưa nhận xét đánh giá sai lệch:
-  "kiểm soát chi tiêu rất tốt!" khi thực tế 0đ chỉ vì data thiếu,
-dẫn tới user có thể tin nhận xét sai → đưa quyết định tài chính sai
-(nghĩ mình chi tiêu ít → chi tiêu thêm → nợ),
-hoặc nhận ra AI sai → mất niềm tin → bỏ tính năng.
-Bằng chứng chính: 9 screenshot từ 8 bài test thực tế với Moni
-+ review công khai ghi nhận AI phân loại khó khăn ngoài hệ sinh thái MoMo.
+Người dùng trẻ (sinh viên, dân văn phòng) hay phân vân "hôm nay ăn gì?" trên ShopeeFood
+đang gặp khó khăn trong việc tìm món ăn phù hợp với ngữ cảnh thực tế của bản thân,
+vì hệ thống gợi ý của ShopeeFood chỉ tập trung vào các quán quảng cáo/phổ biến
+mà hoàn toàn bỏ qua các yếu tố ngữ cảnh như thời tiết, thời điểm trong ngày, tâm trạng, và thông tin dinh dưỡng:
+  - Gợi ý lẩu buffet vào buổi sáng, nước đá lạnh vào ngày mưa bão, hoặc quán đã đóng cửa lúc đêm muộn.
+  - Tìm kiếm không hiểu ngôn ngữ tự nhiên chứa nhiều tiêu chí phức tạp ("healthy dưới 50k gần đây").
+  - Thiếu hoàn toàn thông tin calo cho người ăn kiêng.
+Dẫn tới việc user mất 10-15 phút lướt app vô định, đặt nhầm quán đã đóng, hoặc nhận gợi ý không hợp nhu cầu,
+khiến họ cảm thấy mệt mỏi (choice overload) và dần mất niềm tin vào các đề xuất của app.
+Bằng chứng: 7 phát hiện qua tự trải nghiệm thực tế (self-use) của nhóm và các đánh giá công khai từ cộng đồng.
 ```
 
 ---
@@ -46,17 +48,17 @@ Bằng chứng chính: 9 screenshot từ 8 bài test thực tế với Moni
 ## 4. Build slice
 
 ```text
-Cho người dùng MoMo trẻ chi tiêu đa kênh đang hỏi Moni phân tích chi tiêu,
-prototype sẽ dùng AI để augment quá trình phân tích:
-  - Phát hiện khoảng trống dữ liệu bất thường
-    (ví dụ: 0đ ăn uống 2 tuần, tổng 0đ cả tháng),
-  - Disclaimer nguồn dữ liệu ở mọi kết quả: "Số liệu chỉ gồm giao dịch qua MoMo",
-  - Proactive hỏi user: "Bạn có chi tiêu ngoài MoMo không? Nhập thêm để phân tích chính xác hơn",
-  - KHÔNG đưa nhận xét đánh giá ("tốt"/"xấu") khi data không đủ cơ sở,
-tạo ra kết quả phân tích đáng tin cậy hơn,
-và xử lý failure mode "AI nhầm khoảng trống hợp lệ với khoảng trống do thiếu data"
-bằng cách luôn hỏi xác nhận user trước khi kết luận,
-và cho user tắt nhắc nhở nếu xác nhận data đúng.
+Dành cho người dùng trẻ hay phân vân "ăn gì" đang tìm kiếm món ăn trên ShopeeFood,
+prototype sẽ là một AI Food Agent gợi ý món ăn thông minh theo ngữ cảnh:
+  - Tự động detect thời tiết (Weather API) và thời gian thực để tạo ngữ cảnh nền (ví dụ: mưa lạnh buổi trưa).
+  - Cho phép user trò chuyện tự nhiên hoặc click nhanh để chọn tâm trạng (mood: stress, vui vẻ, mệt mỏi)
+    và yêu cầu cụ thể (budget dưới 50k, healthy/comfort food).
+  - Truy vấn Google Places API để tìm các quán ăn thực tế gần vị trí của user đang mở cửa và có rating cao.
+  - Tích hợp Nutritionix API để bổ sung thông tin dinh dưỡng, lượng calo ước tính cho món ăn gợi ý.
+  - Output hiển thị 2-3 option được tuyển chọn chi tiết kèm lý do gợi ý ("Trời đang mưa 19°C và bạn đang stress,
+    món súp cua nóng hổi này [320 kcal] tại quán A cách bạn 500m là lựa chọn hoàn hảo!").
+  - Xử lý failure mode: AI nhận dạng sai mood hoặc gợi ý quán có đánh giá ảo bằng cách luôn có nút "Đổi món khác"
+    và nút phản hồi nhanh để AI học preference tức thì trong phiên chat.
 ```
 
 ---
@@ -69,9 +71,9 @@ Chọn một:
 - [ ] **Conditional automation:** AI tự làm trong case hẹp; case mơ hồ/rủi ro chuyển người.
 - [ ] **Automation:** AI tự quyết và tự hành động.
 
-**Lý do chọn:** Khi phát hiện khoảng trống dữ liệu, AI không nên tự suy luận (ví dụ: tự đoán user chi bao nhiêu) vì dễ sai. AI gợi ý + hỏi user xác nhận, user quyết định có nhập bổ sung hay không. Đặc biệt, AI KHÔNG tự đưa nhận xét đánh giá ("kiểm soát tốt") khi chưa được user xác nhận data đủ — vì false positive nguy hiểm hơn "không nhận xét gì".
+**Lý do chọn:** Lựa chọn ăn uống mang tính cá nhân, khẩu vị và cảm xúc rất chủ quan. AI đóng vai trò là một trợ lý thông minh (Co-pilot) giúp thu thập thông tin thời tiết, vị trí, giờ mở cửa và dinh dưỡng để "thu hẹp" lựa chọn từ hàng nghìn quán xuống còn 2-3 gợi ý phù hợp nhất. User luôn là người ra quyết định cuối cùng (Decider) xem có đặt món đó hay không và tự đặt trên app gốc.
 
-**Human role:** Decider — user xác nhận data có thiếu hay không, nhập bổ sung nếu muốn, và quyết định tắt nhắc nhở nếu data đúng.
+**Human role:** Decider (Người quyết định) — User cung cấp thông tin tâm trạng, thay đổi các filter theo ý muốn, xem xét lý do gợi ý của AI và đưa ra quyết định đặt món hoặc yêu cầu đổi món khác.
 
 ---
 
@@ -79,31 +81,28 @@ Chọn một:
 
 | Path | Prototype phải thể hiện gì? |
 |---|---|
-| **Happy** | User hỏi phân tích chi tiêu → data MoMo đủ (nhiều giao dịch, pattern bình thường) → AI trả kết quả + disclaimer "Số liệu gồm giao dịch qua MoMo" + nhận xét có cơ sở + gợi ý bổ sung chi tiêu ngoài MoMo để chính xác hơn. |
-| **Low-confidence** | AI phát hiện khoảng trống (0đ ăn uống 2 tuần, tổng 0đ cả tháng) → KHÔNG nhận xét đánh giá → hỏi user: "Moni chỉ thấy [X]đ qua MoMo. Bạn có chi tiêu bằng tiền mặt/ngân hàng không?" → User chọn nhập bổ sung hoặc xác nhận "không chi tiêu" → kết quả cập nhật. |
-| **Failure** | User thật sự không chi tiêu (ăn ở nhà, cha mẹ nấu) → AI vẫn hỏi "bạn có chi ngoài MoMo không?" → User nói "Không" → AI ghi nhận, KHÔNG hỏi lại liên tục. Cho user tắt nhắc nhở cho danh mục cụ thể. |
-| **Correction** | User đã nhập chi tiêu bổ sung → AI cập nhật phân tích → user thấy số liệu mới. Nếu user muốn sửa danh mục → prototype chỉ dẫn ra tính năng sửa (Sổ giao dịch). Trong scope Day 06, correction path đơn giản — inline edit là backlog. |
+| **Happy** | Hệ thống tự detect trời mưa lạnh 20°C buổi trưa. User chat: *"Buồn ngủ quá, muốn ăn gì đó healthy ấm bụng dưới 60k"*. AI hiểu context, tìm qua API và gợi ý: Phở gà gà ta xé (390 kcal, giá 45k tại Quán Phở Việt cách 450m, mở cửa) + lý do: *"Húp nước dùng ấm nóng giải cảm, nhiều protein giúp tỉnh táo mà không béo"*. User bấm chọn. |
+| **Low-confidence** | User nhập câu lệnh mơ hồ hoặc không rõ ràng: *"Ăn gì cũng được"*. AI không có đủ dữ liệu tâm trạng/budget → AI tự detect thời tiết + thời gian nền, đồng thời chủ động gợi ý nhanh bằng các nút bấm: *"Trưa hè nóng nực 35°C đấy! Bạn muốn một bữa 'Healthy lành mạnh' hay một bữa 'Nuông chiều bản thân' (comfort food) nào?"* để thu hẹp scope. |
+| **Failure** | AI đoán sai mood/nhu cầu thực tế của user (Ví dụ: User đang buồn chán và thực tế muốn ăn đồ ngọt nhiều calo để giải sầu, nhưng AI vẫn gợi ý món cháo dinh dưỡng nhạt nhẽo vì thấy trời mưa lạnh). Hoặc gợi ý quán có chất lượng thực tế quá tệ do chỉ lọc theo rating ảo trên Google Maps. |
+| **Correction** | Khi gặp Failure Path (user phản đối gợi ý): User bấm nút *"Đổi món khác (muốn ăn ngọt/cay)"* hoặc chat *"Không muốn ăn healthy đâu"*. AI lập tức phản hồi: *"Xin lỗi bạn nhé, mình đổi vị ngay đây!"*, điều chỉnh bộ lọc sang comfort food, loại bỏ quán/món vừa gợi ý, và đưa ra 2 option mới (bánh ngọt/trà sữa nóng) phù hợp hơn. |
 
 ---
 
 ## 7. Failure mode nguy hiểm nhất
 
 ```text
-Nếu user thật sự không chi tiêu ở một danh mục
-(ví dụ: ăn ở nhà, cha mẹ nấu → 0đ ăn uống là đúng),
-AI có thể nhầm rằng data thiếu và hỏi liên tục
-"Bạn có chi tiêu ngoài MoMo không?",
-hậu quả là user cảm thấy bị làm phiền, mất trải nghiệm, bỏ tính năng.
+Nếu AI gợi ý sai lệch hoàn toàn so với tâm trạng hoặc nhu cầu dinh dưỡng thực tế của user
+(ví dụ: user đang stress cực độ cần comfort food béo/ngọt để xả stress, nhưng AI lại ép ăn salad ức gà khô khan
+vì trước đó user từng đặt chế độ ăn healthy), user sẽ thấy cực kỳ ức chế và chán nản, dẫn đến việc tắt chatbot ngay lập tức.
 
 Prototype sẽ xử lý bằng:
-  - Cho user chọn "Không, tôi thật sự không chi tiêu mục này"
-    → ghi nhận preference.
-  - Không hỏi lại cùng câu hỏi trong 30 ngày sau khi user confirm.
-  - Thêm option "Tắt nhắc nhở bổ sung chi tiêu cho danh mục [X]".
-  - Khi user đã confirm → kết quả 0đ hiển thị kèm ghi chú
-    "Đã xác nhận bởi user" thay vì đưa nhận xét đánh giá.
+  - Luôn đi kèm nút "Nuông chiều bản thân" (Comfort Mode) và "Giữ dáng" (Healthy Mode) nổi bật trên giao diện chat
+    để user dễ dàng thay đổi chế độ chỉ bằng 1 click.
+  - Khi user nói "Không thích món này/Muốn đổi món", AI sẽ lập tức bỏ qua gợi ý cũ và hiển thị các tag gợi ý thay thế
+    như: "Cay nồng", "Ngọt ngào", "Nhanh gọn", "Thanh đạm" để user chọn hướng sửa đổi nhanh chóng.
+  - AI lưu preference tạm thời trong session chat để không lặp lại gợi ý thuộc nhóm món ăn bị từ chối.
 
-Owner kiểm thử path này là Dương Đức Cường.
+Owner kiểm thử path này là Bùi Hoàng Sơn (Tester).
 ```
 
 ---
@@ -112,8 +111,8 @@ Owner kiểm thử path này là Dương Đức Cường.
 
 | Thành viên | Việc phụ trách | Bằng chứng cần có trong repo |
 |---|---|---|
-| Dương Đức Cường | Research / evidence | Evidence pack hoàn chỉnh + 9 screenshot self-use + review public + 3 competitor analogs |
-| Dương Đức Cường | SPEC | Thin SPEC + synthesis-decide toolkit + app-teardown (5 findings, 4 paths, as-is/to-be) |
-| Dương Đức Cường | Prototype | Chatbot flow prototype thể hiện 4 paths: Happy / Low-confidence / Failure / Correction |
-| Dương Đức Cường | Test / failure path | Test case: (1) false positive khi data thiếu, (2) khoảng trống hợp lệ vs thiếu data, (3) so sánh data thiếu, (4) disclaimer hiển thị |
-| Dương Đức Cường | Demo script / repo | Script demo 3-5 phút: trình bày pain (screenshot Moni khen 0đ) → prototype giải quyết → test failure path |
+| **Dương Đức Cường** (Leader) | Phân tích & SPEC | Hoàn thiện [evidence-pack-template.md](file:///E:/VinUni/Day06-2A202600794-DuongDucCuong/02-group-spec/evidence-pack-template.md), [synthesis-decide-toolkit.md](file:///E:/VinUni/Day06-2A202600794-DuongDucCuong/02-group-spec/synthesis-decide-toolkit.md), và [thin-spec-template.md](file:///E:/VinUni/Day06-2A202600794-DuongDucCuong/02-group-spec/thin-spec-template.md) |
+| **Đinh Hoàng Nam** (Dev) | Prototype Development | Source code của chatbot UI (HTML/CSS/JS) chạy thử nghiệm local, có tích hợp gọi mock/real APIs (Weather, Google Maps, Nutritionix). |
+| **Bùi Hoàng Sơn** (Tester) | Testing & Quality Assurance | File test_cases.md ghi nhận kết quả test 4 paths (Happy, Low-confidence, Failure, Correction) kèm ảnh chụp màn hình chạy test thực tế. |
+| **Ngô Minh Khánh** (Business/UX) | User Feedback & Research | Bản khảo sát nhanh ý kiến user về ý tưởng gợi ý món theo ngữ cảnh + slide pitch giải pháp so với ShopeeFood gốc. |
+| **Bùi Như Kiệt** (Writer/Support) | Demo Script & Repo Management | File demo_script.md định hướng video demo 3-5 phút (kịch bản thể hiện pain point của ShopeeFood gốc -> chạy demo prototype giải quyết 4 paths). |
